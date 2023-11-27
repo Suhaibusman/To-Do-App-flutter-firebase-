@@ -9,6 +9,8 @@ class SignUpController extends GetxController{
   TextEditingController userNameController= TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxBool loading = false.obs;
+    RxBool isAgree = false.obs;
+  RxBool isPassVisible = true.obs;
   signUpWithEmailAndPassword(
       ) async {
         loading.value =true;
@@ -19,6 +21,9 @@ class SignUpController extends GetxController{
     if (emailAddress == "" || password == "" || userName == "") {
       Get.snackbar( "Sign up Error", "Please Fill All The Values");
      loading.value = false;
+    } else if(isAgree.isFalse){
+      loading.value = false;
+       Get.snackbar( "Sign up Error", "Please Agree Terms and Conditions");
     } else {
       try {
          loading.value = true;

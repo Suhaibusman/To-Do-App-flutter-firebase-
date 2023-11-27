@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/controller/sign_up_controller.dart';
@@ -16,8 +18,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool isAgree = false;
-  bool isPassVisible = true;
   @override
   Widget build(BuildContext context) {
     SignUpController signUpController = Get.put(SignUpController());
@@ -74,29 +74,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    CustomTextField(
-                        textFieldController:
-                            signUpController.passwordController,
-                        hintText: "Enter Password",
-                        isPass: isPassVisible,
-                        textFieldIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPassVisible = !isPassVisible;
-                              });
-                            },
-                            icon: const Icon(Icons.remove_red_eye_outlined))),
+                    Obx(() {
+                      return CustomTextField(
+                          textFieldController:
+                              signUpController.passwordController,
+                          hintText: "Enter Password",
+                          isPass: signUpController.isPassVisible.value,
+                          textFieldIcon: IconButton(
+                              onPressed: () {
+                                signUpController.isPassVisible.value =
+                                    !signUpController.isPassVisible.value;
+                              },
+                              icon: const Icon(Icons.remove_red_eye_outlined)));
+                    }),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Checkbox(
-                          value: isAgree,
-                          onChanged: (value) {
-                            setState(() {
-                              isAgree = !isAgree;
-                            });
-                          },
-                        ),
+                        Obx(() {
+                          return Checkbox(
+                            value: signUpController.isAgree.value,
+                            onChanged: (value) {
+                              signUpController.isAgree.value =
+                                  !signUpController.isAgree.value;
+                            },
+                          );
+                        }),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: const TextWidget(
@@ -117,19 +119,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       children: [
                         Obx(() {
-
-                          return signUpController.loading.value ? const CircularProgressIndicator(): InkWell(
-                              onTap: () {
-                                signUpController.signUpWithEmailAndPassword();
-                              },
-                              child: CustomButtonWidget(
-                                bgColor: Colors.black,
-                                textMessage: "Create Account",
-                                textColor: Colors.white,
-                                textSize: 20,
-                                buttonWidth:
-                                    MediaQuery.of(context).size.width * 0.5,
-                              ));
+                          return signUpController.loading.value
+                              ? const CircularProgressIndicator()
+                              : InkWell(
+                                  onTap: () {
+                                    signUpController
+                                        .signUpWithEmailAndPassword();
+                                  },
+                                  child: CustomButtonWidget(
+                                    bgColor: Colors.black,
+                                    textMessage: "Create Account",
+                                    textColor: Colors.white,
+                                    textSize: 20,
+                                    buttonWidth:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ));
                         }),
                         const SizedBox(
                           height: 10,
