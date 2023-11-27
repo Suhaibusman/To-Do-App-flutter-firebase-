@@ -41,13 +41,8 @@ class SignUpController extends GetxController{
           userNameController.clear();
         }
       } on FirebaseAuthException catch (e) {
-         loading.value = false;
-        if (e.code == 'weak-password') {
-          Get.snackbar( "Sign Up Error", "The Password is To Weak");
-        } else if (e.code == 'email-already-in-use') {
-          Get.snackbar( "Sign Up Error",
-              "The account already exists for that email");
-        }
+    loading.value = false;
+        Get.snackbar( "Error", e.toString());
       } catch (e) {
         loading.value = false;
         Get.snackbar( "Error", e.toString());

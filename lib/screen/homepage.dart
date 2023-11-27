@@ -125,6 +125,7 @@ void updateUsernameAndPass(DocumentSnapshot doc) {
                 FirebaseAuth.instance.signOut();
                 box.remove("currentLoginUsername");
           currentLoginUid = box.remove("currentLoginUid");
+          print(  box.read("currentLoginUsername"));
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
