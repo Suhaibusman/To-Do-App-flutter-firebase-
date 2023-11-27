@@ -11,14 +11,17 @@ class SignUpController extends GetxController{
   RxBool loading = false.obs;
   signUpWithEmailAndPassword(
       ) async {
+        loading.value =true;
     String emailAddress = emailController.text.toString().trim();
     String password = passwordController.text.toString().trim();
     String userName = userNameController.text.toString().trim();
 
     if (emailAddress == "" || password == "" || userName == "") {
       Get.snackbar( "Sign up Error", "Please Fill All The Values");
+     loading.value = false;
     } else {
       try {
+         loading.value = true;
         final credential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailAddress,
@@ -30,6 +33,7 @@ class SignUpController extends GetxController{
           "Password": password
         });
         if (credential.user != null) {
+           loading.value = false;
           Get.snackbar( "Sign Up Successfully",
               "The User With This Email: $emailAddress is Registered Successfully");
           emailController.clear();
@@ -37,6 +41,7 @@ class SignUpController extends GetxController{
           userNameController.clear();
         }
       } on FirebaseAuthException catch (e) {
+         loading.value = false;
         if (e.code == 'weak-password') {
           Get.snackbar( "Sign Up Error", "The Password is To Weak");
         } else if (e.code == 'email-already-in-use') {
@@ -44,6 +49,7 @@ class SignUpController extends GetxController{
               "The account already exists for that email");
         }
       } catch (e) {
+        loading.value = false;
         Get.snackbar( "Error", e.toString());
       }
     }
