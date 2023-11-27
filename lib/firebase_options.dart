@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD16oFotQSMftXbXZgFUC-WGlLfXS9C7V4',
-    appId: '1:81993084792:web:668f5842c31aabeb48a28d',
-    messagingSenderId: '81993084792',
-    projectId: 'todoapp-8d9af',
-    authDomain: 'todoapp-8d9af.firebaseapp.com',
-    storageBucket: 'todoapp-8d9af.appspot.com',
-    measurementId: 'G-KRQGDXYE33',
+    apiKey: 'AIzaSyBhDAFY_iNO21eB7ujbHIGEngpGVoWVZ4A',
+    appId: '1:204694127643:web:0eb07f133d4a09e37ae4be',
+    messagingSenderId: '204694127643',
+    projectId: 'todoappflutter-b8e33',
+    authDomain: 'todoappflutter-b8e33.firebaseapp.com',
+    storageBucket: 'todoappflutter-b8e33.appspot.com',
+    measurementId: 'G-0K5TLFHJNS',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCRdHe1rkdg5ja1GP84FipOtlrf4TEfCWM',
-    appId: '1:81993084792:android:0b57b1f83430337648a28d',
-    messagingSenderId: '81993084792',
-    projectId: 'todoapp-8d9af',
-    storageBucket: 'todoapp-8d9af.appspot.com',
+    apiKey: 'AIzaSyCBxKi4HSApkIbtNJLMKuUhuokEAIyYq3s',
+    appId: '1:204694127643:android:2786e78851b11d8a7ae4be',
+    messagingSenderId: '204694127643',
+    projectId: 'todoappflutter-b8e33',
+    storageBucket: 'todoappflutter-b8e33.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAP5Kz7hsRVnjZCt8sCxnxhrxgm7twnS-o',
-    appId: '1:81993084792:ios:e0ecb88cd03e305048a28d',
-    messagingSenderId: '81993084792',
-    projectId: 'todoapp-8d9af',
-    storageBucket: 'todoapp-8d9af.appspot.com',
+    apiKey: 'AIzaSyC_jKbc0lIKji0CJhyqYogXqMt448YcJIY',
+    appId: '1:204694127643:ios:b078ae982412701d7ae4be',
+    messagingSenderId: '204694127643',
+    projectId: 'todoappflutter-b8e33',
+    storageBucket: 'todoappflutter-b8e33.appspot.com',
     iosBundleId: 'com.example.todoapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAP5Kz7hsRVnjZCt8sCxnxhrxgm7twnS-o',
-    appId: '1:81993084792:ios:515fcd68424c6c2548a28d',
-    messagingSenderId: '81993084792',
-    projectId: 'todoapp-8d9af',
-    storageBucket: 'todoapp-8d9af.appspot.com',
+    apiKey: 'AIzaSyC_jKbc0lIKji0CJhyqYogXqMt448YcJIY',
+    appId: '1:204694127643:ios:6ad627cf13db5cf97ae4be',
+    messagingSenderId: '204694127643',
+    projectId: 'todoappflutter-b8e33',
+    storageBucket: 'todoappflutter-b8e33.appspot.com',
     iosBundleId: 'com.example.todoapp.RunnerTests',
   );
 }

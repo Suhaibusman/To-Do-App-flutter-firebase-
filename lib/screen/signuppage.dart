@@ -2,9 +2,9 @@
 
 
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todoapp/controller/sign_up_controller.dart';
 import 'package:todoapp/screen/loginpage.dart';
 import 'package:todoapp/widgets/buttonwidget.dart';
 import 'package:todoapp/widgets/textfieldwidget.dart';
@@ -20,104 +20,13 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
-   TextEditingController emailAddress =TextEditingController();
-   TextEditingController password =TextEditingController();
-   TextEditingController name =TextEditingController();
-   TextEditingController userName =TextEditingController();
 
-  
-  // void addUsers(credential){
-  //   FirebaseFirestore.instance.collection("users").add(
-  //     {
-  //       "id" : credential.user.uid,
-  //       "name" : name.text,
-  //       "password" : password.text,
-  //   "userName" : userName.text,
-  //   "emailAddress" : emailAddress.text
-  //     }
-  //   ).then((value) => print("Added")).onError((error, stackTrace) => print("error"));
-  // }
-
-
-
- Future registerUser() async {
-  if (isAgree == false) {
-    showDialog(context: context, builder: (context) {
-    return AlertDialog(
-      title: const Text("Please agree to Privacy and Policy and User Agreement below"),
-      
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: const Text("Ok"))
-      ],
-    );
-  },);
- 
-  }
-   else{
-    try {
-   await FirebaseAuth.instance.createUserWithEmailAndPassword(
-    email: emailAddress.text,
-    password: password.text,
-  );
-  //  FirebaseFirestore.instance.collection("users").doc( credential.user!.uid).set(
-  //     {
-  //       "id" : credential.user!.uid,
-  //       "name" : name.text,
-  //       "password" : password.text,
-  //   "userName" : userName.text,
-  //   "emailAddress" : emailAddress.text
-  //     }
-  //   ).then((value) => print("Added")).onError((error, stackTrace) => print("error"));
-  // ignore: use_build_context_synchronously
-  showDialog(context: context, builder: (context) {
-    return AlertDialog(
-      title: const Text("Sign up Succesfull"),
-      
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: const Text("Ok"))
-      ],
-    );
-  },);
-} on FirebaseAuthException catch (e) {
-  String errorMessage ="Please Enter Username And Password";
-  if (e.code == 'weak-password') {
-    errorMessage='The password provided is too weak.';
-  } else if (e.code == 'email-already-in-use') {
-    errorMessage='The account already exists for that email.';
-  }
-  // ignore: use_build_context_synchronously
-  showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Sign Up Error"),
-            content: Text(errorMessage),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-            ],
-          );
-        },
-      );
-} catch (e) {
-  print(e);
-
-}
-   }
- }
  bool isAgree =false;
  bool isPassVisible =true;
   @override
 
   Widget build(BuildContext context) {
+    SignUpController signUpController =Get.put(SignUpController());
     return SafeArea(
       child: Scaffold(
          resizeToAvoidBottomInset : false,
@@ -134,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           child: Column(
             children: [
-              // const SizedBox(height: 40,),
+             
               SizedBox(
                 child: Column(
                 //  mainAxisAlignment: MainAxisAlignment.center,
@@ -147,14 +56,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 20,),
                        Image.asset("assets/images/continuewithEmail.png"),
                         const SizedBox(height: 20,),
-                    //     CustomTextField(textFieldController: name, hintText: "Enter Your Name"),
-                        
-                    // const SizedBox(height: 20,),
-                    //  CustomTextField(textFieldController: userName, hintText: "Enter Your Username"),
-                    // const SizedBox(height: 20,),
-                        CustomTextField(textFieldController: emailAddress, hintText: "Enter Email"),
+                     CustomTextField(textFieldController:  signUpController.userNameController, hintText: "Enter Your Username"),
+                    const SizedBox(height: 20,),
+                        CustomTextField(textFieldController:  signUpController.emailController, hintText: "Enter Email"),
                       const SizedBox(height: 20,),
-                     CustomTextField(textFieldController: password, hintText: "Enter Password" , isPass: isPassVisible, textFieldIcon: IconButton(onPressed: (){
+                     CustomTextField(textFieldController:  signUpController.passwordController, hintText: "Enter Password" , isPass: isPassVisible, textFieldIcon: IconButton(onPressed: (){
                       setState(() {
                         isPassVisible =!isPassVisible;
                       });
@@ -187,8 +93,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               children: [
                                 InkWell(
                       onTap: () {
-                      
-                        registerUser();
+                        
+                      signUpController.signUpWithEmailAndPassword();
                       },
                       child: CustomButtonWidget( bgColor: Colors.black, textMessage: "Create Account", textColor: Colors.white, textSize: 20, buttonWidth: MediaQuery.of(context).size.width*0.5,)),
                             
