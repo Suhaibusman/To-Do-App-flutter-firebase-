@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/data/data.dart';
 import 'package:todoapp/screen/homepage.dart';
 import 'package:todoapp/screen/loginpage.dart';
 
@@ -92,7 +93,7 @@ class FireBaseFunctions{
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) =>  HomePage( userNames:  currentLoginedName ?? box.read("currentloginedName"),),
               ));
         }
       } on FirebaseAuthException catch (e) {
@@ -107,7 +108,7 @@ class FireBaseFunctions{
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) =>  LoginScreen(),
         ));
   }
 

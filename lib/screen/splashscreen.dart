@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todoapp/screen/loginpage.dart';
 import 'package:todoapp/screen/signuppage.dart';
 import 'package:todoapp/widgets/buttonwidget.dart';
@@ -63,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 const TextWidget(textMessage: "Already Have an Account?", textColor: Colors.white, textSize: 15),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
+             Get.to(LoginScreen(),);
                   },
                   child: const TextWidget(textMessage: "Login", textColor: Colors.black, textSize: 15)),
               ],

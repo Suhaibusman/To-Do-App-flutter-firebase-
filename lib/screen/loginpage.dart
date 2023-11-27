@@ -6,15 +6,11 @@ import 'package:todoapp/widgets/buttonwidget.dart';
 import 'package:todoapp/widgets/textfieldwidget.dart';
 import 'package:todoapp/widgets/textwidget.dart';
 
-class LoginScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class LoginScreen extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const LoginScreen({Key? key});
+   LoginScreen({Key? key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.put(LoginController());
 
   @override
@@ -148,12 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               textSize: 20),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen(),
-                                ),
-                              );
+                              Get.to(const SignUpScreen());
                             },
                             child: const TextWidget(
                                 textMessage: "Sign up",
@@ -163,6 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 50,
                           ),
+                        
+
                         ],
                       ),
                     ),

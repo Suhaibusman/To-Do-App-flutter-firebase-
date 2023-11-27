@@ -56,4 +56,93 @@ class SignUpController extends GetxController{
   }
 
 
+
+//  final userId = "users/id";
+//   final Stream<QuerySnapshot> usersStream =
+//       FirebaseFirestore.instance.collection('users').snapshots();
+//   TextEditingController emailAddress =TextEditingController();
+//    TextEditingController password =TextEditingController();
+//    TextEditingController name =TextEditingController();
+//    TextEditingController userName =TextEditingController();
+// Future<void> addTask(String userId) async {
+//   final userDocRef = FirebaseFirestore.instance.collection("users").doc(box.read("currentLoginUid"));
+
+//   // Check if the user document exists
+//   final userDocSnapshot = await userDocRef.get();
+
+//   if (userDocSnapshot.exists) {
+//     // The user document exists, so you can add a task to the "todos" collection.
+//     final todosCollection = userDocRef.collection("todos");
+
+//     // Create a map with the to-do item data
+//     final taskData = {
+//       "name": 
+//       "name.text",
+//       "password": "password.text",
+//       "userName": "userName.text",
+//       "emailAddress": "emailAddress.text"
+//       ,
+//     };
+
+//     // Add the to-do item to the "todos" collection
+//     todosCollection.add(taskData).then((value) {
+//       print("To-do item added for user: $userId");
+//     }).catchError((error) {
+//       print("Error adding to-do item: $error");
+//     });
+//   } else {
+//     print("User document with ID $userId does not exist.");
+//   }
+// }
+
+// void updateUsernameAndPass(DocumentSnapshot doc) {
+//   final nameController = TextEditingController(text: doc['name']);
+//   final emailAddressController = TextEditingController(text: doc['emailAddress']);
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: const Text("Update"),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Row(
+//               children: [
+//                 const Text("Name:"),
+//                 Expanded(child: CustomTextField(textFieldController: nameController)),
+//               ],
+//             ),
+//             Row(
+//               children: [
+//                 const Text("Email:"),
+//                 Expanded(child: CustomTextField(textFieldController: emailAddressController)),
+//               ],
+//             )
+//           ],
+//         ),
+//         actions: [
+//           ElevatedButton(
+//             onPressed: () {
+//               // Update the document in Firestore
+//               FirebaseFirestore.instance.collection('users').doc(doc.id).update({
+//                 'name': nameController.text,
+//                 'emailAddress': emailAddressController.text,
+//                 // Update other fields as well
+//               }).then((value) {
+//                 print("Document updated");
+//                 Navigator.pop(context); // Close the dialog
+//               }).catchError((error) {
+//                 print("Error updating document: $error");
+//               });
+            
+//             },
+//             child: const Text("Update"),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
+
+
 }
