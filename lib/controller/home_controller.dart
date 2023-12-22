@@ -1,6 +1,108 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  TextEditingController taskAddController = TextEditingController();
 
-  
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getTask();
+  }
+
+  DateTime formattedDate = DateTime.now();
+  formatTime() {
+    return "${formattedDate.hour}:${formattedDate.minute}";
+  }
+
+  formatDate() {
+    return "${formattedDate.day}/${formattedDate.month}/${formattedDate.year}";
+  }
+
+  void addTask() async {
+    if (taskAddController.text.isNotEmpty) {
+      await firestore
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("tasks")
+          .add({
+        "task": taskAddController.text,
+        "time": formatTime(),
+        "date": formatDate(),
+        "isCompleted": false,
+      });
+      taskAddController.clear();
+
+      Get.snackbar(
+        "Success",
+        "Task added successfully",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Please enter task",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future getTask() async {
+    StreamBuilder(
+      stream: firestore
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .collection("tasks")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.separated(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(snapshot.data!.docs[index]["task"]),
+                  subtitle: Text(snapshot.data!.docs[index]["time"]),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemCount: snapshot.data!.docs.length);
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void deleteTask(String docId) async {
+    await firestore
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("tasks")
+        .doc(docId)
+        .delete();
+  }
+
+  void updateTask({required String docId, required String task}) async {
+    await firestore
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .collection("tasks")
+        .doc(docId)
+        .update({
+      "task": task,
+      "time": formatTime(),
+      "date": formatDate(),
+    });
+  }
 }

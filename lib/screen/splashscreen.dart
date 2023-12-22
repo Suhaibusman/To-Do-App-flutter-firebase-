@@ -40,14 +40,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: [
                     TextWidget(textMessage: "Welcome To", textColor: Colors.white, textSize: 40),
                     TextWidget(textMessage: "Shh!", textColor: Colors.white, textSize: 40),
-                    SizedBox(height : 20),
+                    SizedBox(height : 15),
                     TextWidget(textMessage: "A Hub Where Whispers Echo Loudest", textColor: Colors.black, textSize: 20 , textHeight: 2,)
                   
                   ],
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height*0.45,
+                height: MediaQuery.of(context).size.height*0.35,
               ),
             
               SizedBox(child: Column(

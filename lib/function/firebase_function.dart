@@ -5,8 +5,7 @@ import 'package:todoapp/data/data.dart';
 import 'package:todoapp/screen/homepage.dart';
 import 'package:todoapp/screen/loginpage.dart';
 
-class FireBaseFunctions{
-
+class FireBaseFunctions {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   // TextEditingController passController = TextEditingController();
   // TextEditingController emailController = TextEditingController();
@@ -33,7 +32,8 @@ class FireBaseFunctions{
       },
     );
   }
-   signUpWithEmailAndPassword(
+
+  signUpWithEmailAndPassword(
       context, emailController, passwordController, userNameController) async {
     String emailAddress = emailController.text.toString().trim();
     String password = passwordController.text.toString().trim();
@@ -93,7 +93,9 @@ class FireBaseFunctions{
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>  HomePage( userNames:  currentLoginedName ?? box.read("currentloginedName"),),
+                builder: (context) => HomePage(
+                  userNames: box.read("currentloginedName") ?? "username",
+                ),
               ));
         }
       } on FirebaseAuthException catch (e) {
@@ -108,8 +110,7 @@ class FireBaseFunctions{
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>  LoginScreen(),
+          builder: (context) => LoginScreen(),
         ));
   }
-
 }
