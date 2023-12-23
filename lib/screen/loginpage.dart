@@ -9,9 +9,10 @@ import 'package:todoapp/widgets/textwidget.dart';
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-   LoginScreen({Key? key});
+  LoginScreen({Key? key});
 
   LoginController loginController = Get.put(LoginController());
+  // SignUpController signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +32,19 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 const TextWidget(
-                    textMessage: "Log in to Shh!",
+                    textMessage: "LOGIN",
                     textColor: Colors.white,
-                    textSize: 40),
+                    textSize: 30),
                 const SizedBox(
                   height: 40,
                 ),
                 InkWell(
                     onTap: () {
-                      //  fireBaseFunctions.signInWithGoogle();
-                      //  signInWithGoogle();
+                      loginController.signInWithGoogle();
                     },
                     child: CustomButtonWidget(
                       imageAddress: "assets/images/googlelogo.png",
@@ -154,8 +157,6 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(
                             height: 50,
                           ),
-                        
-
                         ],
                       ),
                     ),
