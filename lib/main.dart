@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: (FirebaseAuth.instance.currentUser != null)
-          ? HomePage(userNames: box.read("currentLoginedName") ?? "")
+          ? HomePage(userNames: box.read("currentloginedName"))
           : const SplashScreen(),
     );
   }

@@ -16,6 +16,10 @@ class HomeController extends GetxController {
     return DateFormat('h:mm a').format(formattedDate);
   }
 
+  formatedTime() {
+    return "${formattedDate.hour}/${formattedDate.minute}/}";
+  }
+
   formatDate() {
     return "${formattedDate.day}/${formattedDate.month}/${formattedDate.year}";
   }
@@ -28,7 +32,7 @@ class HomeController extends GetxController {
           .collection("tasks")
           .add({
         "task": taskAddController.text,
-        "time": formatTime(formattedDate),
+        "time": formatTime(DateTime.now()),
         "date": formatDate(),
         "isCompleted": false,
       });
@@ -83,7 +87,7 @@ class HomeController extends GetxController {
                 .doc(docId)
                 .update({
               "task": taskUpdateController.text,
-              "time": formatTime(formattedDate),
+              "time": formatTime(DateTime.now()),
               "date": formatDate(),
             });
             taskUpdateController.clear();

@@ -12,28 +12,79 @@ import 'package:todoapp/widgets/textwidget.dart';
 
 class HomePage extends StatelessWidget {
   final String userNames;
-  const HomePage({Key? key, required this.userNames}) : super(key: key);
+  HomeController homeController = Get.put(HomeController());
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  HomePage({Key? key, required this.userNames}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController());
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [primaryColor, primaryLightColor])),
+                child: Column(
+                  children: [
+                    TextWidget(
+                        textMessage: box.read("currentLoginUsername") ?? "",
+                        textColor: white,
+                        textSize: 20),
+                    TextWidget(
+                        textMessage: homeController.auth.currentUser!.email!,
+                        textColor: Colors.black,
+                        textSize: 10),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.home),
+                title: const Text("Home"),
+                onTap: () {
+                  Get.back();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Settings"),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Logout"),
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
+                  box.remove("currentLoginUsername");
+                  box.remove("isLogined");
+
+                  Get.offAll(const SplashScreen());
+                },
+              ),
+            ],
+          ),
+        ),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/loginScreenImage.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [primaryColor, primaryLightColor])),
           child: Column(
             children: [
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _scaffoldKey.currentState!.openDrawer();
+                      },
                       icon: const Icon(
                         Icons.menu,
                         color: Colors.black,
@@ -46,16 +97,8 @@ class HomePage extends StatelessWidget {
                           textSize: 20)),
                 ],
               ),
-              TextButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  box.remove("currentLoginUsername");
-                  box.remove("isLogined");
-                  // currentLoginUid = box.remove("currentLoginUid");
-
-                  Get.offAll(const SplashScreen());
-                },
-                child: const Text("Sign out"),
+              SizedBox(
+                height: Get.height * 0.02,
               ),
               Row(
                 children: [
@@ -68,7 +111,7 @@ class HomePage extends StatelessWidget {
                     },
                     child: CustomButtonWidget(
                       textMessage: "Add",
-                      bgColor: primaryLightColor,
+                      bgColor: primaryColor,
                       textColor: white,
                       textSize: 15,
                       buttonWidth: Get.width * 0.2,

@@ -46,20 +46,10 @@ class LoginController extends GetxController {
 
           // Navigate to HomeScreen
           Get.offAll(() => HomePage(
-                userNames: box.read("currentloginedName") ?? "",
+                userNames: box.read("currentloginedName"),
               ));
           box.write("isLogined", true);
           isLogined = true;
-          //   Navigator.popUntil(context, (route) => route.isFirst);
-
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => HomePage(
-          // userNames: currentLoginedName ?? box.read("currentloginedName"),
-          // )
-          //   ),
-          // );
         } else {
           Get.snackbar("Login Error", "You are not a registered user");
           // Handle the case where the user is not found in the "user" collection
