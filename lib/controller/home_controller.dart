@@ -2,18 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todoapp/widgets/textfieldwidget.dart';
 
 class HomeController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController taskAddController = TextEditingController();
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    getTask();
-  }
+  TextEditingController taskUpdateController = TextEditingController();
 
   DateTime formattedDate = DateTime.now();
   formatTime() {
@@ -56,34 +51,6 @@ class HomeController extends GetxController {
     }
   }
 
-  Future getTask() async {
-    StreamBuilder(
-      stream: firestore
-          .collection("users")
-          .doc(auth.currentUser!.uid)
-          .collection("tasks")
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return ListView.separated(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data!.docs[index]["task"]),
-                  subtitle: Text(snapshot.data!.docs[index]["time"]),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider();
-              },
-              itemCount: snapshot.data!.docs.length);
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
-
   void deleteTask(String docId) async {
     await firestore
         .collection("users")
@@ -91,18 +58,37 @@ class HomeController extends GetxController {
         .collection("tasks")
         .doc(docId)
         .delete();
+
+    Get.snackbar("Deleted", "Task deleted successfully");
   }
 
-  void updateTask({required String docId, required String task}) async {
-    await firestore
-        .collection("users")
-        .doc(auth.currentUser!.uid)
-        .collection("tasks")
-        .doc(docId)
-        .update({
-      "task": task,
-      "time": formatTime(),
-      "date": formatDate(),
-    });
+  void updateTask({
+    required String docId,
+  }) async {
+    Get.dialog(AlertDialog(
+      title: const Text("Update Task"),
+      content: CustomTextField(
+        textFieldController: taskUpdateController,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            await firestore
+                .collection("users")
+                .doc(auth.currentUser!.uid)
+                .collection("tasks")
+                .doc(docId)
+                .update({
+              "task": taskUpdateController.text,
+              "time": formatTime(),
+              "date": formatDate(),
+            });
+            taskUpdateController.clear();
+            Get.back();
+          },
+          child: const Center(child: Text("Update")),
+        )
+      ],
+    ));
   }
 }

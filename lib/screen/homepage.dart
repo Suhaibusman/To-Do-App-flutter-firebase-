@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -76,43 +77,62 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Expanded(
-                  child: StreamBuilder(
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: homeController.firestore
                     .collection("users")
                     .doc(homeController.auth.currentUser!.uid)
                     .collection("tasks")
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    QuerySnapshot<Map<String, dynamic>> taskSnapshot =
+                        snapshot.data as QuerySnapshot<Map<String, dynamic>>;
+                    List<QueryDocumentSnapshot<Map<String, dynamic>>>
+                        taskDocuments = taskSnapshot.docs;
+
+                    if (taskDocuments.isEmpty) {
+                      return const Center(child: Text("No Tasks Found"));
+                    } else {
+                      return ListView.builder(
+                        itemCount: taskDocuments.length,
                         itemBuilder: (context, index) {
+                          // Access the data of each document using taskDocuments[index].data()
+                          Map<String, dynamic> taskData =
+                              taskDocuments[index].data();
+
                           return ListTile(
-                            tileColor: primaryLightColor,
-                            title: Text(snapshot.data!.docs[index]["task"]),
-                            subtitle: Text(snapshot.data!.docs[index]["time"]),
+                            title: Text(taskData['task']),
+                            subtitle: Text(taskData['time']),
                             trailing: Wrap(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: Colors.red,
-                                    )),
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    homeController
+                                        .deleteTask(taskDocuments[index].id);
+                                  },
+                                ),
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.green,
-                                    )),
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    homeController.updateTask(
+                                      docId: taskDocuments[index].id,
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           );
                         },
-                        itemCount: snapshot.data!.docs.length);
+                      );
+                    }
+                  } else {
+                    return const Center(child: Text("No Data Found"));
                   }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                 },
               ))
             ],
