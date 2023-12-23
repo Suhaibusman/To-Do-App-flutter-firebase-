@@ -123,7 +123,8 @@ class HomePage extends StatelessWidget {
                   await FirebaseAuth.instance.signOut();
                   box.remove("currentLoginUsername");
                   box.remove("isLogined");
-
+                  box.read("loginwithemail");
+                  box.erase();
                   Get.offAll(const SplashScreen());
                 },
               ),
@@ -224,19 +225,25 @@ class HomePage extends StatelessWidget {
                             trailing: Wrap(
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    homeController
-                                        .deleteTask(taskDocuments[index].id);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: white,
+                                  ),
                                   onPressed: () {
                                     homeController.updateTask(
                                       docId: taskDocuments[index].id,
                                       task: taskData['task'],
                                     );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: white,
+                                  ),
+                                  onPressed: () {
+                                    homeController
+                                        .deleteTask(taskDocuments[index].id);
                                   },
                                 ),
                               ],
