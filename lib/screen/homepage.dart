@@ -66,49 +66,54 @@ class HomePage extends StatelessWidget {
                   Get.back();
                   Get.defaultDialog(
                       title: "Change Password",
-                      content: Column(
-                        children: [
-                          CustomTextField(
-                            textFieldController:
-                                homeController.oldPasswordController,
-                            hintText: "Enter Old Password",
-                            isPass: true,
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.02,
-                          ),
-                          CustomTextField(
-                            textFieldController:
-                                homeController.newPasswordController,
-                            hintText: "Enter new Password",
-                            isPass: true,
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.02,
-                          ),
-                          CustomTextField(
-                            textFieldController:
-                                homeController.confirmNewPasswordController,
-                            hintText: "Enter Confirm Password",
-                            isPass: true,
-                          ),
-                          SizedBox(
-                            height: Get.height * 0.02,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              homeController.changePassword();
-                            },
-                            child: CustomButtonWidget(
-                              textMessage: "Change",
-                              bgColor: primaryColor,
-                              textColor: white,
-                              textSize: 15,
-                              buttonWidth: Get.width * 0.5,
-                            ),
-                          )
-                        ],
-                      ));
+                      content: box.read("loginwithemail") == true
+                          ? Column(
+                              children: [
+                                CustomTextField(
+                                  textFieldController:
+                                      homeController.oldPasswordController,
+                                  hintText: "Enter Old Password",
+                                  isPass: true,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                CustomTextField(
+                                  textFieldController:
+                                      homeController.newPasswordController,
+                                  hintText: "Enter new Password",
+                                  isPass: true,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                CustomTextField(
+                                  textFieldController: homeController
+                                      .confirmNewPasswordController,
+                                  hintText: "Enter Confirm Password",
+                                  isPass: true,
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    homeController.changePassword();
+                                  },
+                                  child: CustomButtonWidget(
+                                    textMessage: "Change",
+                                    bgColor: primaryColor,
+                                    textColor: white,
+                                    textSize: 15,
+                                    buttonWidth: Get.width * 0.5,
+                                  ),
+                                )
+                              ],
+                            )
+                          : const Center(
+                              child: Text(
+                                  "You Can't Change Password Because You Login With Google"),
+                            ));
                 },
               ),
               ListTile(

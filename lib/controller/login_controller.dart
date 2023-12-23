@@ -43,6 +43,7 @@ class LoginController extends GetxController {
               userSnapshot.data() as Map<String, dynamic>;
 
           box.write("currentloginedName", userData["username"]);
+          box.write("loginwithemail", true);
 
           // Navigate to HomeScreen
           Get.offAll(() => HomePage(
