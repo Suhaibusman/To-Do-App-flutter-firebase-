@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/controller/sign_up_controller.dart';
@@ -40,19 +38,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const TextWidget(
-                        textMessage: "Sign up to Shh!",
+                        textMessage: "Sign up",
                         textColor: Colors.white,
                         textSize: 40),
                     const SizedBox(
                       height: 20,
                     ),
-                    CustomButtonWidget(
-                      imageAddress: "assets/images/googlelogo.png",
-                      bgColor: Colors.black,
-                      textMessage: "Sign up with Google",
-                      textColor: Colors.white,
-                      textSize: 20,
-                      buttonWidth: MediaQuery.of(context).size.width * 0.8,
+                    InkWell(
+                      onTap: () {
+                        signUpController.signInWithGoogle();
+                      },
+                      child: CustomButtonWidget(
+                        imageAddress: "assets/images/googlelogo.png",
+                        bgColor: Colors.black,
+                        textMessage: "Sign up with Google",
+                        textColor: Colors.white,
+                        textSize: 20,
+                        buttonWidth: MediaQuery.of(context).size.width * 0.8,
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -147,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  LoginScreen(),
+                                  builder: (context) => LoginScreen(),
                                 ));
                           },
                           child: const TextWidget(
