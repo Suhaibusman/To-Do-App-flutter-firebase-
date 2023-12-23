@@ -10,6 +10,13 @@ class HomeController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController taskAddController = TextEditingController();
   TextEditingController taskUpdateController = TextEditingController();
+  RxBool loading = false.obs;
+  RxBool isOldPassVissible = true.obs;
+  RxBool isNewPassVissible = true.obs;
+  RxBool isconfirmNewPassVissible = true.obs;
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmNewPasswordController = TextEditingController();
 
   DateTime formattedDate = DateTime.now();
   String formatTime(DateTime formattedDate) {
@@ -93,5 +100,52 @@ class HomeController extends GetxController {
         )
       ],
     ));
+  }
+
+  void changePassword() async {
+    loading.value = true;
+    String oldPass = oldPasswordController.text.toString().trim();
+    String newPass = newPasswordController.text.toString().trim();
+    String confirmNewPass = confirmNewPasswordController.text.toString().trim();
+
+    if (oldPass == "" || newPass == "" || confirmNewPass == "") {
+      Get.snackbar("Change Password Error", "Please Fill All The Values");
+      loading.value = false;
+    } else if (newPass != confirmNewPass) {
+      Get.snackbar("Change Password Error",
+          "New Password and Retype Password not match");
+      loading.value = false;
+    } else {
+      final User? user = auth.currentUser;
+
+      if (user != null) {
+        try {
+          loading.value = true;
+          // Sign in the user with their current password for reauthentication
+          final AuthCredential credential = EmailAuthProvider.credential(
+            email: user.email!,
+            password: oldPasswordController.text,
+          );
+
+          await user.reauthenticateWithCredential(credential);
+
+          // Change the password
+          await user.updatePassword(newPasswordController.text);
+          loading.value = false;
+          // Clear the password fields
+          oldPasswordController.clear();
+          newPasswordController.clear();
+          confirmNewPasswordController.clear();
+
+          Get.snackbar("Password Change", "Password changed successfully!");
+        } catch (e) {
+          loading.value = false;
+          Get.snackbar("Error", "Error changing password: $e");
+        }
+      } else {
+        loading.value = false;
+        Get.snackbar("Error", "No user found");
+      }
+    }
   }
 }

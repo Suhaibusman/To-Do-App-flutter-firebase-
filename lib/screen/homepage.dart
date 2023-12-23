@@ -33,6 +33,14 @@ class HomePage extends StatelessWidget {
                         colors: [primaryColor, primaryLightColor])),
                 child: Column(
                   children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: white,
+                      child: TextWidget(
+                          textMessage: userNames[0].toUpperCase(),
+                          textColor: primaryColor,
+                          textSize: 20),
+                    ),
                     TextWidget(
                         textMessage: userNames.toUpperCase(),
                         textColor: white,
@@ -53,8 +61,55 @@ class HomePage extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
-                title: const Text("Settings"),
-                onTap: () {},
+                title: const Text("Change Password"),
+                onTap: () {
+                  Get.back();
+                  Get.defaultDialog(
+                      title: "Change Password",
+                      content: Column(
+                        children: [
+                          CustomTextField(
+                            textFieldController:
+                                homeController.oldPasswordController,
+                            hintText: "Enter Old Password",
+                            isPass: true,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          CustomTextField(
+                            textFieldController:
+                                homeController.newPasswordController,
+                            hintText: "Enter new Password",
+                            isPass: true,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          CustomTextField(
+                            textFieldController:
+                                homeController.confirmNewPasswordController,
+                            hintText: "Enter Confirm Password",
+                            isPass: true,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.02,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              homeController.changePassword();
+                            },
+                            child: CustomButtonWidget(
+                              textMessage: "Change",
+                              bgColor: primaryColor,
+                              textColor: white,
+                              textSize: 15,
+                              buttonWidth: Get.width * 0.5,
+                            ),
+                          )
+                        ],
+                      ));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.logout),
@@ -141,7 +196,11 @@ class HomePage extends StatelessWidget {
                     if (taskDocuments.isEmpty) {
                       return const Center(child: Text("No Tasks Found"));
                     } else {
-                      return ListView.builder(
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                        ),
                         itemCount: taskDocuments.length,
                         itemBuilder: (context, index) {
                           Map<String, dynamic> taskData =
@@ -155,7 +214,7 @@ class HomePage extends StatelessWidget {
                             subtitle: TextWidget(
                                 textMessage:
                                     "Date: ${taskData['date']}\nTime: ${taskData['time']}",
-                                textColor: Colors.grey,
+                                textColor: Colors.black,
                                 textSize: 12),
                             trailing: Wrap(
                               children: [
