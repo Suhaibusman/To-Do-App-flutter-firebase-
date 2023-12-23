@@ -10,6 +10,7 @@ import 'package:todoapp/widgets/buttonwidget.dart';
 import 'package:todoapp/widgets/textfieldwidget.dart';
 import 'package:todoapp/widgets/textwidget.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   final String userNames;
   HomeController homeController = Get.put(HomeController());
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextWidget(
-                        textMessage: box.read("currentLoginUsername") ?? "",
+                        textMessage: userNames.toUpperCase(),
                         textColor: white,
                         textSize: 20),
                     TextWidget(
@@ -85,15 +86,15 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         _scaffoldKey.currentState!.openDrawer();
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.menu,
-                        color: Colors.black,
+                        color: white,
                         size: 30,
                       )),
                   Center(
                       child: TextWidget(
                           textMessage: "WELLCOME ${userNames.toUpperCase()}",
-                          textColor: Colors.black,
+                          textColor: white,
                           textSize: 20)),
                 ],
               ),
@@ -147,8 +148,15 @@ class HomePage extends StatelessWidget {
                               taskDocuments[index].data();
 
                           return ListTile(
-                            title: Text(taskData['task']),
-                            subtitle: Text(taskData['time']),
+                            title: TextWidget(
+                                textMessage: taskData['task'],
+                                textColor: white,
+                                textSize: 12),
+                            subtitle: TextWidget(
+                                textMessage:
+                                    "Date: ${taskData['date']}\nTime: ${taskData['time']}",
+                                textColor: Colors.grey,
+                                textSize: 12),
                             trailing: Wrap(
                               children: [
                                 IconButton(

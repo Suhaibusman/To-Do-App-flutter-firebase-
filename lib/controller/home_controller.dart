@@ -16,10 +16,6 @@ class HomeController extends GetxController {
     return DateFormat('h:mm a').format(formattedDate);
   }
 
-  formatedTime() {
-    return "${formattedDate.hour}/${formattedDate.minute}/}";
-  }
-
   formatDate() {
     return "${formattedDate.day}/${formattedDate.month}/${formattedDate.year}";
   }
