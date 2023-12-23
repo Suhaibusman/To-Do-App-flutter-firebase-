@@ -100,7 +100,6 @@ class HomePage extends StatelessWidget {
                       return ListView.builder(
                         itemCount: taskDocuments.length,
                         itemBuilder: (context, index) {
-                          // Access the data of each document using taskDocuments[index].data()
                           Map<String, dynamic> taskData =
                               taskDocuments[index].data();
 
@@ -121,6 +120,7 @@ class HomePage extends StatelessWidget {
                                   onPressed: () {
                                     homeController.updateTask(
                                       docId: taskDocuments[index].id,
+                                      task: taskData['task'],
                                     );
                                   },
                                 ),

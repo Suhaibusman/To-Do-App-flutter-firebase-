@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/widgets/textfieldwidget.dart';
+import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -11,8 +12,8 @@ class HomeController extends GetxController {
   TextEditingController taskUpdateController = TextEditingController();
 
   DateTime formattedDate = DateTime.now();
-  formatTime() {
-    return "${formattedDate.hour}:${formattedDate.minute}";
+  String formatTime(DateTime formattedDate) {
+    return DateFormat('h:mm a').format(formattedDate);
   }
 
   formatDate() {
@@ -27,7 +28,7 @@ class HomeController extends GetxController {
           .collection("tasks")
           .add({
         "task": taskAddController.text,
-        "time": formatTime(),
+        "time": formatTime(formattedDate),
         "date": formatDate(),
         "isCompleted": false,
       });
@@ -64,7 +65,9 @@ class HomeController extends GetxController {
 
   void updateTask({
     required String docId,
+    required String task,
   }) async {
+    taskUpdateController.text = task;
     Get.dialog(AlertDialog(
       title: const Text("Update Task"),
       content: CustomTextField(
@@ -80,7 +83,7 @@ class HomeController extends GetxController {
                 .doc(docId)
                 .update({
               "task": taskUpdateController.text,
-              "time": formatTime(),
+              "time": formatTime(formattedDate),
               "date": formatDate(),
             });
             taskUpdateController.clear();
