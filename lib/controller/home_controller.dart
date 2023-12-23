@@ -132,6 +132,9 @@ class HomeController extends GetxController {
           // Change the password
           await user.updatePassword(newPasswordController.text);
           loading.value = false;
+          firestore.collection("users").doc(user.uid).update({
+            "Password": newPasswordController.text,
+          });
           // Clear the password fields
           oldPasswordController.clear();
           newPasswordController.clear();
