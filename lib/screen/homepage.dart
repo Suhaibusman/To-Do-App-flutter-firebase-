@@ -54,14 +54,18 @@ class HomePage extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.home),
-                title: const Text("Home"),
+                title: const TextWidget(
+                    textMessage: "Home", textColor: Colors.black, textSize: 15),
                 onTap: () {
                   Get.back();
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
-                title: const Text("Change Password"),
+                title: const TextWidget(
+                    textMessage: "Change Password",
+                    textColor: Colors.black,
+                    textSize: 15),
                 onTap: () {
                   Get.back();
                   Get.defaultDialog(
@@ -111,14 +115,20 @@ class HomePage extends StatelessWidget {
                               ],
                             )
                           : const Center(
-                              child: Text(
-                                  "You Can't Change Password Because You Login With Google"),
+                              child: TextWidget(
+                                  textMessage:
+                                      "You Can't Change Password Because You are Login With Google",
+                                  textColor: Colors.black,
+                                  textSize: 15),
                             ));
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.logout),
-                title: const Text("Logout"),
+                title: const TextWidget(
+                    textMessage: "Logout",
+                    textColor: Colors.black,
+                    textSize: 15),
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   box.remove("currentLoginUsername");
